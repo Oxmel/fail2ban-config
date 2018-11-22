@@ -1,0 +1,48 @@
+# Fail2Ban local jail configuration for Nginx.
+#
+# Examples of config files:
+# /etc/fail2ban/jail.conf
+# /usr/share/doc/fail2ban/examples/jail.conf
+
+
+#
+# JAILS
+#
+
+# Ban time reminder:
+# 1 day = 86400
+# 2 days = 172800
+# 1 week = 604800
+# 1 month = 2419200
+
+[nginx-badrequests]
+enabled  = true
+filter = nginx-badrequests
+action = iptables-multiport[name=BadReqs, port="http,https"]
+logpath = /var/log/nginx*/*access*.log
+bantime = 604800
+maxretry = 0
+
+[nginx-noagent]
+enabled  = true
+filter = nginx-noagent
+action = iptables-multiport[name=NoAgent, port="http,https"]
+logpath = /var/log/nginx*/*access*.log
+bantime = 604800
+maxretry = 0
+
+[nginx-noscript]
+enabled  = true
+filter = nginx-noscript
+action = iptables-multiport[name=NoScript, port="http,https"]
+logpath = /var/log/nginx*/*access*.log
+bantime = 604800
+maxretry = 0
+
+[nginx-proxy]
+enabled = true
+action = iptables-multiport[name=NoProxy, port="http,https"]
+filter = nginx-proxy
+logpath = /var/log/nginx*/*access*.log
+bantime  = 604800
+maxretry = 0
